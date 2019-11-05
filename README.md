@@ -11,3 +11,13 @@ TO DO:
 Segundo Commit
 5) Comprueba si la unidad es al momento de intentar moverla pero no al atacar
 6) Comprueba comparando si son del mismo color
+
+Tercer Commit
+4) agregado metodo moverUnidad() a tablero para mover a todas las direcciones
+
+  Falta:
+  1) Sectores aliado y enemigo
+  2) Jinete(ataques)
+  3) La catapulta(ataques y que no se mueva)
+
+
