@@ -257,6 +257,9 @@ public class TestAlgoChess {
         Soldado soldado = new Soldado();
         Soldado soldadoEnemigo = new Soldado();
 
+        soldado.setAlianza(Alianza.AZUL);
+        soldadoEnemigo.setAlianza(Alianza.ROJO);
+
         soldado.atacar(2,soldadoEnemigo);
 
         Assertions.assertEquals(90, soldadoEnemigo.getPuntosDeVida());
@@ -268,6 +271,9 @@ public class TestAlgoChess {
 
         Soldado soldado = new Soldado();
         Soldado soldadoEnemigo = new Soldado();
+
+        soldado.setAlianza(Alianza.AZUL);
+        soldadoEnemigo.setAlianza(Alianza.ROJO);
 
         Assertions.assertEquals(100, soldadoEnemigo.getPuntosDeVida());
         Assertions.assertThrows(ObjetivoFueraDeRangoException.class, () -> soldado.atacar(3,soldadoEnemigo));
@@ -341,6 +347,54 @@ public class TestAlgoChess {
         jugadorAzul.comprarUnidad("catapulta",17,14);
 
         Assertions.assertThrows(NoSePuedenCurarUnidadesNoOrganicasException.class, () -> tablero.unidadAliadaEnPosicionAtacarUnidadEnemigaEnPosicion(18,12,17,14));
+    }
+
+    /**Unidades aliadas no pueden atacarse y curanderos no pueden curar unidades enemigas*/
+    @Test
+    public void testCuranderoAzulNoPuedeCurarAUnSoldadoRojo(){
+
+        Tablero tablero = new Tablero();
+
+        Curandero curanderoAzul = new Curandero();
+        Soldado soldadoRojo = new Soldado();
+
+        soldadoRojo.setAlianza(Alianza.ROJO);
+        curanderoAzul.setAlianza(Alianza.AZUL);
+
+        curanderoAzul.atacar(2,soldadoRojo);
+
+        Assertions.assertEquals(100, soldadoRojo.getPuntosDeVida());
+    }
+
+    @Test
+    public void testSoldadoAzulNoPuedeAtacarAUnSoldadoAzul(){
+
+        Tablero tablero = new Tablero();
+        JugadorAzul jugadorAzul = new JugadorAzul("agus",tablero);
+
+        jugadorAzul.comprarUnidad("soldado",18,12);
+        jugadorAzul.comprarUnidad("soldado",17,14);
+
+        jugadorAzul.unidadAliadaEnPosicionAtacarUnidadEnemigaEnPosicion(18,12,17,14);
+
+        Assertions.assertEquals(100, tablero.getPuntosDeVidaUnidadEnPosicion(17,14));
+    }
+
+
+    /**Jugador no puede mover fichas enemigas*/
+
+    @Test
+    public void testJugadorAzulNoPuedeMoverUnaUnidadEnemiga(){
+
+        Tablero tablero = new Tablero();
+        JugadorAzul jugadorAzul = new JugadorAzul("agus",tablero);
+        Soldado soldadoEnemigo = new Soldado();
+
+        jugadorAzul.comprarUnidad("soldado",18,12);
+        tablero.colocarUnidad(soldadoEnemigo,6,6);
+
+        Assertions.assertThrows(NoSePuedeComandarAUnaUnidadEnemigaException.class, () -> jugadorAzul.unidadPasoAlNorte(6,6));
+
     }
 
 

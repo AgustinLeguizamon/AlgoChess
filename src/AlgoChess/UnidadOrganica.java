@@ -1,4 +1,4 @@
 package AlgoChess;
 
-public class UnidadOrganica implements TipoDeUnidad {
+public class UnidadOrganica {
 }

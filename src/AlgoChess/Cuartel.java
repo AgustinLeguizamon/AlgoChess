@@ -17,12 +17,10 @@ public class Cuartel {
 
     }
 
-    public Unidad getUnidad(String nombreUnidad, int puntos) {
+    public Unidad getUnidad(String nombreUnidad, Jugador unJugador) {
 
         Unidad unidad = unidades.get(nombreUnidad);
-        if( unidad.getCosto() > puntos){
-            throw new PuntosInsuficientes();
-        }
+        unJugador.pagar(unidad.getCosto());
 
         return unidad.copiar();
     }

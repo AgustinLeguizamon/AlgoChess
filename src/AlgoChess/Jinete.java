@@ -31,6 +31,11 @@ public class Jinete extends Unidad {
 
     }
 
+    @Override
+    public void atacar(Unidad unidadObjetivo) {
+
+    }
+
 
     @Override
     public void perderVida(int danio) {

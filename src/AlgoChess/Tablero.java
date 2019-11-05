@@ -5,19 +5,22 @@ import static java.lang.Math.max;
 
 public class Tablero {
 
-    private Casillero tablero[][];
+    private Unidad tablero[][];
 
     public Tablero(){
 
         int i,j;
 
-        tablero = new Casillero[20][20];
+        tablero = new Unidad[20][20];
         for ( i = 0; i < 20 ; i++) {
             for (j = 0; j < 20 ; j++) {
-                Casillero casillero = new Casillero();
-                tablero[i][j] = casillero;
+                tablero[i][j] = null;
             }
         }
+
+    }
+
+    public void imprimirTablero(){
 
     }
 
@@ -28,63 +31,80 @@ public class Tablero {
 
 
     public boolean estaVacio(int fila, int columna){
-        return tablero[fila][columna].estaVacio();
+
+        return tablero[fila][columna] == null;
     }
 
+    public void casilleroEstaOcupado(int fila, int columna){
+
+        if(tablero[fila][columna] != null){
+            throw new CasilleroEstaOcupadoException();
+        }
+    }
 
     public void colocarUnidad(Unidad unaUnidad, int fila, int columna) {
 
-        tablero[fila][columna].casilleroEstaOcupado();
-        tablero[fila][columna].colocarUnidad(unaUnidad);
+        casilleroEstaOcupado(fila,columna);
+        tablero[fila][columna] = unaUnidad;
+        unaUnidad.setPosicion(fila,columna);
+    }
+
+    private Unidad preparar(int fila, int columna) {
+
+        tablero[fila][columna].pasoAlNorte();
+        Unidad unidadAMover = tablero[fila][columna];
+        tablero[fila][columna] = null;
+        return unidadAMover;
     }
 
     public void pasoAlNorte(int fila, int columna) {
 
-        tablero[fila-1][columna].casilleroEstaOcupado();
-        Unidad unaUnidad = tablero[fila][columna].removerUnidad();
-        tablero[fila-1][columna].colocarUnidad(unaUnidad);
+        Unidad unidadAMover;
+        unidadAMover = this.preparar(fila,columna);
+        this.colocarUnidad(unidadAMover,fila-1,columna);
     }
+
 
     public void pasoAlEste(int fila, int columna) {
 
-        tablero[fila][columna+1].casilleroEstaOcupado(); //Se fija si se puede mover al casillero Este
-        Unidad unaUnidad = tablero[fila][columna].removerUnidad(); //Remueve del casillero a la unidad
-        tablero[fila][columna+1].colocarUnidad(unaUnidad);// La coloca en el casillero inmediato Este
+        Unidad unidadAMover;
+        unidadAMover = this.preparar(fila,columna);
+        this.colocarUnidad(unidadAMover,fila,columna+1);
     }
 
     public void pasoAlSur(int fila, int columna) {
 
-        tablero[fila+1][columna].casilleroEstaOcupado();
-        Unidad unaUnidad = tablero[fila][columna].removerUnidad();
-        tablero[fila+1][columna].colocarUnidad(unaUnidad);
+        Unidad unidadAMover;
+        unidadAMover = this.preparar(fila,columna);
+        this.colocarUnidad(unidadAMover,fila+1,columna);
     }
 
     public void pasoAlOeste(int fila, int columna) {
 
-        tablero[fila][columna-1].casilleroEstaOcupado(); //Se fija si se puede mover al casillero Este
-        Unidad unaUnidad = tablero[fila][columna].removerUnidad(); //Remueve del casillero a la unidad
-        tablero[fila][columna-1].colocarUnidad(unaUnidad);// La coloca en el casillero inmediato Este
+        Unidad unidadAMover;
+        unidadAMover = this.preparar(fila,columna);
+        this.colocarUnidad(unidadAMover,fila,columna-1);
     }
 
     public void unidadAliadaEnPosicionAtacarUnidadEnemigaEnPosicion(int filaAliado, int columnaAliado, int filaEnemigo, int columnaEnemigo) {
 
-        Casillero casilleroAliado, casilleroEnemigo;
+        Unidad unidadAliada, unidadEnemiga;
 
-        casilleroAliado = tablero[filaAliado][columnaAliado];
-        casilleroEnemigo = tablero[filaEnemigo][columnaEnemigo];
+        unidadAliada = tablero[filaAliado][columnaAliado];
+        unidadEnemiga = tablero[filaEnemigo][columnaEnemigo];
 
-        if(casilleroAliado.estaVacio() || casilleroEnemigo.estaVacio()){
+        if(unidadAliada == null || unidadEnemiga == null){
             throw new noHayUnidadEnCasilleroException();
         }
 
         int distancia = max(abs(filaAliado - filaEnemigo), abs(columnaAliado - columnaEnemigo));
 
-        casilleroAliado.unidadAtacar(distancia, casilleroEnemigo.getUnidad());
+        unidadAliada.atacar(distancia, unidadEnemiga);
     }
 
     public int getPuntosDeVidaUnidadEnPosicion(int fila, int columna) {
 
-        return tablero[fila][columna].getUnidad().getPuntosDeVida();
+        return tablero[fila][columna].getPuntosDeVida();
     }
 
 }

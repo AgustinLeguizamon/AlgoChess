@@ -43,16 +43,33 @@ public abstract class Jugador {
     * pq no se me ocurre como comprar primero y luego en otra funcion colocar sin tener que buscar
     * la unidad en la lista y ver si ya fue colocada o no asi que mejor hacerlo de una */
 
-    public void comprarUnidad(String nombreUnidad) {
+    public void comprarUnidad(String nombreUnidad){
 
         Unidad unidadComprada;
-        unidadComprada = cuartel.getUnidad(nombreUnidad, puntos);
-        puntos -= unidadComprada.getCosto();
+        unidadComprada = cuartel.getUnidad(nombreUnidad, this);
         unidades.add(unidadComprada);
+
     }
 
     public abstract void comprarUnidad(String nombreUnidad, int fila, int columna);
 
-
     public abstract void unidadAliadaEnPosicionAtacarUnidadEnemigaEnPosicion(int filaAliada, int columnaAliado, int filaEnemigo, int columnaEnemigo);
+
+    public  void unidadAliadaAtacarUnidadEnemiga(Unidad unidadAliada, Unidad unidadEnemiga){
+
+        if (unidades.contains(unidadAliada) & !unidades.contains(unidadEnemiga)){
+
+            unidadAliada.atacar(unidadEnemiga);
+        }
+
+    }
+
+
+    public void pagar(int costo){
+
+        if( costo > puntos){
+            throw new PuntosInsuficientes();
+        }
+        puntos -= costo;
+    }
 }

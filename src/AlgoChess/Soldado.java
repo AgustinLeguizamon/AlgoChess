@@ -1,6 +1,7 @@
 package AlgoChess;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 public class Soldado extends Unidad {
 
@@ -15,8 +16,27 @@ public class Soldado extends Unidad {
     @Override
     public void atacar(int distancia, Unidad unidadObjetivo) {
 
-        this.dentroRango(distancia);
-        unidadObjetivo.perderVida(danioCuerpoACuerpo);
+        if(unidadObjetivo.getAlianza() != alianza){
+            this.dentroRango(distancia);
+            unidadObjetivo.perderVida(danioCuerpoACuerpo);
+        }else{
+            System.out.println("No se pueden atacar unidades aliadas");
+        };
+
+    }
+
+    @Override
+    public void atacar(Unidad unidadObjetivo) {
+
+        if(unidadObjetivo.getAlianza() != alianza){
+            int distancia = max(abs(tFila - unidadObjetivo.getFila()), abs(tColumna - unidadObjetivo.getColumna()));
+            this.dentroRango(distancia);
+            unidadObjetivo.perderVida(danioCuerpoACuerpo);
+        }
+        else{
+            System.out.println("No se pueden atacar unidades aliadas");
+        }
+
     }
 
     @Override
