@@ -1,5 +1,10 @@
 package AlgoChess;
 
+import Excepciones.PuntosInsuficientesException;
+import Tablero.Tablero;
+import Unidades.Cuartel;
+import Unidades.Unidad;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +17,10 @@ public abstract class Jugador {
     al colocar una unidad coloca en el casillero el puntero a la unidad presente en esta lista*/
     protected List<Unidad> unidades;
 
-    /*El cuartal deberia ser una sola instancia para todos los jugadores, aca estoy duplicando pero no jode :) */
+    /*El cuartal deberia ser una sola instancia para todos los jugadores, aca estoy duplicando por cada jugador? */
     protected Cuartel cuartel = new Cuartel();
     protected Tablero tablero;
+    //protected int[][] movimientosPosible = Movimiento.OFFSET_COORDENADAS_MOVIMIENTO;
 
     public Jugador(String unNombre) {
 
@@ -55,6 +61,9 @@ public abstract class Jugador {
 
     public abstract void unidadAliadaEnPosicionAtacarUnidadEnemigaEnPosicion(int filaAliada, int columnaAliado, int filaEnemigo, int columnaEnemigo);
 
+    /*
+    Paso las dos unidades por parametro dado que como saben su posicion pueden calcular la distancia entre ellas
+
     public  void unidadAliadaAtacarUnidadEnemiga(Unidad unidadAliada, Unidad unidadEnemiga){
 
         if (unidades.contains(unidadAliada) & !unidades.contains(unidadEnemiga)){
@@ -63,12 +72,12 @@ public abstract class Jugador {
         }
 
     }
-
+    */
 
     public void pagar(int costo){
 
         if( costo > puntos){
-            throw new PuntosInsuficientes();
+            throw new PuntosInsuficientesException();
         }
         puntos -= costo;
     }

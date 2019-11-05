@@ -1,5 +1,8 @@
 package AlgoChess;
 
+import Excepciones.CasilleroEstaOcupadoException;
+import Unidades.Unidad;
+
 public class Casillero {
 
     protected Unidad unidad;

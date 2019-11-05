@@ -1,5 +1,9 @@
 package AlgoChess;
 
+import Excepciones.NoSePuedeColocarUnidadEnSectorEnemigoException;
+import Tablero.Tablero;
+import Unidades.Unidad;
+
 public class JugadorRojo extends Jugador {
 
     public JugadorRojo(String unNombre, Tablero tablero) {

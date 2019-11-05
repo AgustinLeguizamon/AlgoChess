@@ -1,5 +1,7 @@
 package AlgoChess;
 
+import Tablero.Tablero;
+
 public class Juego {
 
     private Tablero tablero;
