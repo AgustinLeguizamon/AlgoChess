@@ -7,3 +7,7 @@ TO DO:
 4) Movimiento rectos, no diagonales
 5) No comprueba si la unidad es del jugador o no
 6) No comprueba si la unidad a atacar es aliada o enemiga
+
+Segundo Commit
+5) Comprueba si la unidad es al momento de intentar moverla pero no al atacar
+6) Comprueba comparando si son del mismo color
